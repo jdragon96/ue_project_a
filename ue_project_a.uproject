@@ -7,7 +7,11 @@
 		{
 			"Name": "ue_project_a",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine",
+				"EnhancedInput"
+			]
 		}
 	],
 	"Plugins": [
