@@ -25,58 +25,72 @@ public:
 	AMyPlayerController();
 
 protected:
-
-	/**
-	* @name 게임 적용 시작 시 호출
-	* @return
-	*/
+	/// <summary>
+	/// 
+	/// </summary>
 	virtual void BeginPlay() override;
 
-	/**
-	* @name 커스텀 입력 바인딩을 가능하게 함
-	* @return
-	*/
+	/// <summary>
+	/// 입력 액션 바인딩
+	/// </summary>
 	virtual void SetupInputComponent() override;
 
 	/// <summary>
-	/// 
+	/// 입력 전 초기화
 	/// </summary>
 	/// <param name="DeltaTime"></param>
 	/// <param name="bGamePaused"></param>
 	virtual void PreProcessInput(const float DeltaTime, const bool bGamePaused) override;
 
-private:
-	/**
-	* @name 캐릭터 이동 처리
-	* @param InputActionValue 캐릭터 입력 현황
-	* @return 
-	*/
-	void Move(const FInputActionValue& InputActionValue);
+	/// <summary>
+	/// 입력 후 처리
+	/// </summary>
+	/// <param name="DeltaTime"></param>
+	/// <param name="bGamePaused"></param>
+	virtual void PostProcessInput(const float DeltaTime, const bool bGamePaused) override;
 
 private:
 	/// <summary>
-	/// 
+	/// 캐릭터 입력 처리
+	/// </summary>
+	/// <param name="InputActionValue"></param>
+	void LookUp(const FInputActionValue& InputActionValue);
+	void LookRight(const FInputActionValue& InputActionValue);
+	void LookAround(const FInputActionValue& InputActionValue);
+	void MoveForward(const FInputActionValue& InputActionValues);
+	void MoveRight(const FInputActionValue& InputActionValues);
+
+	/// <summary>
+	/// 입력 액션 초기화하기
+	/// </summary>
+	void InitAction();
+
+	/// <summary>
+	/// 입력값을 기반으로 캐릭터 상태 갱신
+	/// </summary>
+	void UpdateInputState();
+
+private:
+	/// <summary>
+	/// 캐릭터, 애니메이션 인스턴스 포인터
 	/// </summary>
 	TObjectPtr<APlayerCharacter> OwnerActor;
-
-	/// <summary>
-	/// 
-	/// </summary>
-	TObjectPtr<UInputMappingContext> PlayerContext;
-
-	/// <summary>
-	/// 
-	/// </summary>
 	TObjectPtr<UPlayerAnimation> OwnerAnimation;
 
-	/// <summary>
-	/// 
-	/// </summary>
-	TObjectPtr<UInputAction> MoveAction;
 
 	/// <summary>
-	/// 
+	/// 캐릭터 입력 액션
 	/// </summary>
-	TObjectPtr<UQuaterViewIMC> InputMappingContext;
+	TObjectPtr<UInputMappingContext> PlayerContext;
+	TObjectPtr<UInputAction> LookUpAction;
+	TObjectPtr<UInputAction> LookRightAction;
+	TObjectPtr<UInputAction> LookAroundAction;
+	TObjectPtr<UInputAction> MoveForwardAction;
+	TObjectPtr<UInputAction> MoveRightAction;
+
+	/// <summary>
+	/// 캐릭터 이동 방향벡터
+	/// </summary>
+	FVector MoveVector;
 };
 

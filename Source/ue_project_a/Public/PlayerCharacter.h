@@ -4,7 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "CharacterBase.h"
+#include "MovieSceneSequenceID.h"
 #include "PlayerCharacter.generated.h"
+
+struct FInputActionValue;
+class UInputAction;
+class UInputMappingContext;
+
+#define DECLARE_ACCESSOR(Type, VarName) \
+		FORCEINLINE Type Get##VarName() const { return VarName; }\
+    FORCEINLINE void Set##VarName(Type NewValue) { VarName = NewValue; };
 
 /**
  * 
@@ -18,25 +27,17 @@ public:
 	APlayerCharacter();
 
 	/// <summary>
-	/// 캐릭터 애니메이션 상태를 설정한다.
-	/// </summary>
-	/// <param name="state">캐릭터 애니메이션 상태</param>
-	void SetAnimState(ECharacterState state);
-
-	/// <summary>
-	/// 애니메이션 상태를 반환한다.
-	/// </summary>
-	/// <returns></returns>
-	ECharacterState GetAnimState();
-
-	/// <summary>
 	/// 
 	/// </summary>
 	virtual void BeginPlay() override;
 
+	
+
 	/// <summary>
-	/// 
+	/// 애니메이션 트랜지션에 사용한다
 	/// </summary>
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 	ECharacterState PlayerAnimState;
+
+	DECLARE_ACCESSOR(ECharacterState, PlayerAnimState);
 };

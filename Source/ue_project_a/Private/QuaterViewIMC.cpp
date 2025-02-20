@@ -9,7 +9,7 @@
 #include "InputModifiers.h"
 
 
-UQuaterViewIMC::UQuaterViewIMC()
+UQuaterViewIMC::UQuaterViewIMC(): UInputMappingContext()
 {
  	MoveAction = NewObject<UInputAction>();
 	MoveAction->ValueType = EInputActionValueType::Axis2D;

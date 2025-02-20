@@ -29,7 +29,7 @@ void UPlayerAnimation::NativeUpdateAnimation(float DeltaTimeX)
 	Super::NativeUpdateAnimation(DeltaTimeX);
 	if (!OwnerActor)
 		return;
-	AnimState = OwnerActor->GetAnimState();
+	AnimState = OwnerActor->GetPlayerAnimState();
 }
 
 void UPlayerAnimation::SetAnimState(ECharacterState state)

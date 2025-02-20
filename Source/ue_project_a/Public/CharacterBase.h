@@ -11,8 +11,19 @@ UENUM(BlueprintType)
 enum class ECharacterState : uint8
 {
 	IDLE  UMETA(DisplayName = "Standing"),
-	WALK UMETA(DisplayName = "Walking"),
-	RUN  UMETA(DisplayName = "Running")
+	WALK	UMETA(DisplayName = "Walking"),
+	RUN		UMETA(DisplayName = "Running"),
+	JUMP  UMETA(DisplayName = "Jumping"),
+	// WALK
+	// RUN
+	RUN_FORWARD  UMETA(DisplayName = "RUN_FORWARD"),
+	RUN_FORWARD_LEFT  UMETA(DisplayName = "RUN_FORWARD_LEFT"),
+	RUN_FORWARD_RIGHT  UMETA(DisplayName = "RUN_FORWARD_RIGHT"),
+	RUN_LEFT  UMETA(DisplayName = "RUN_LEFT"),
+	RUN_RIGHT  UMETA(DisplayName = "RUN_RIGHT"),
+	RUN_BACK  UMETA(DisplayName = "RUN_BACK"),
+	RUN_BACK_LEFT  UMETA(DisplayName = "RUN_BACK_LEFT"),
+	RUN_BACK_RIGHT  UMETA(DisplayName = "RUN_BACK_RIGHT")
 };
 
 UCLASS()
@@ -28,7 +39,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
