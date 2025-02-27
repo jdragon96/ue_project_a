@@ -56,7 +56,6 @@ private:
 	/// <param name="InputActionValue"></param>
 	void LookUp(const FInputActionValue& InputActionValue);
 	void LookRight(const FInputActionValue& InputActionValue);
-	void LookAround(const FInputActionValue& InputActionValue);
 	void MoveForward(const FInputActionValue& InputActionValues);
 	void MoveRight(const FInputActionValue& InputActionValues);
 
@@ -69,6 +68,21 @@ private:
 	/// 입력값을 기반으로 캐릭터 상태 갱신
 	/// </summary>
 	void UpdateInputState();
+
+	void UpdateMoveVector();
+
+public:
+	// 캐릭터 이동 방향벡터
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
+	FVector MoveVector;
+
+	// 캐릭터 속도
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
+	FVector CharacterVelocity;
+
+	// 캐릭터 속도
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	double TransitionRate = 0.2;
 
 private:
 	/// <summary>
@@ -84,13 +98,7 @@ private:
 	TObjectPtr<UInputMappingContext> PlayerContext;
 	TObjectPtr<UInputAction> LookUpAction;
 	TObjectPtr<UInputAction> LookRightAction;
-	TObjectPtr<UInputAction> LookAroundAction;
 	TObjectPtr<UInputAction> MoveForwardAction;
 	TObjectPtr<UInputAction> MoveRightAction;
-
-	/// <summary>
-	/// 캐릭터 이동 방향벡터
-	/// </summary>
-	FVector MoveVector;
 };
 

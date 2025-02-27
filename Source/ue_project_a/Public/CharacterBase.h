@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+class USkeletalMeshComponent;
+class AWeaponBase;
+
 // UENUM 매크로를 사용하여 Enum 정의
 UENUM(BlueprintType)
 enum class ECharacterState : uint8
@@ -35,15 +38,29 @@ public:
 	// Sets default values for this character's properties
 	ACharacterBase();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	// 왼쪽 마우스 클릭 이벤트
+	virtual void ClickMouseLeftButton();
+
+	// 왼쪽 마우스 클릭 이벤트
+	virtual void ClickMouseRightButton();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	TSubclassOf<AWeaponBase> WeaponClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
+	TObjectPtr<AWeaponBase> WeaponPtr;
+
+	UPROPERTY(EditAnywhere, Category = "Weapon")
+	TObjectPtr<USkeletalMeshComponent> Weapon;
 };

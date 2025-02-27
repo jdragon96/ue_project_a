@@ -2,20 +2,30 @@
 
 
 #include "CharacterBase.h"
+#include "Weapon/WeaponBase.h"
 
 // Sets default values
 ACharacterBase::ACharacterBase()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	{
+		//Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
+		//Weapon->SetupAttachment(GetMesh(), FName("WeaponSocket"));
+		//Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
+	{
+		auto worl = GetWorld();
+		WeaponPtr = worl->SpawnActor<AWeaponBase>(WeaponClass);
+		WeaponPtr->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
+		WeaponPtr->SetOwner(this);
+		//GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
+	}
 }
 
 // Called every frame
@@ -30,5 +40,20 @@ void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void ACharacterBase::ClickMouseLeftButton()
+{
+	// 1. 무기 이팩트 처리
+	if (WeaponPtr)
+	{
+		WeaponPtr->ClickLeftMouseBtn();
+	}
+	// 2. 물리효과 적용
+
+}
+
+void ACharacterBase::ClickMouseRightButton()
+{
 }
 

@@ -10,6 +10,7 @@
 #include "QuaterViewIMC.h"
 #include "PlayerCharacter.h"
 #include "PlayerAnimation.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 
 AMyPlayerController::AMyPlayerController()
@@ -44,7 +45,6 @@ void AMyPlayerController::SetupInputComponent()
 	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
 	EnhancedInputComponent->BindAction(LookUpAction, ETriggerEvent::Triggered, this, &AMyPlayerController::LookUp);
 	EnhancedInputComponent->BindAction(LookRightAction, ETriggerEvent::Triggered, this, &AMyPlayerController::LookRight);
-	EnhancedInputComponent->BindAction(LookAroundAction, ETriggerEvent::Triggered, this, &AMyPlayerController::LookAround);
 	EnhancedInputComponent->BindAction(MoveForwardAction, ETriggerEvent::Triggered, this, &AMyPlayerController::MoveForward);
 	EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Triggered, this, &AMyPlayerController::MoveRight);
 }
@@ -59,6 +59,7 @@ void AMyPlayerController::PostProcessInput(const float DeltaTime, const bool bGa
 {
 	Super::PostProcessInput(DeltaTime, bGamePaused);
 	UpdateInputState();
+	UpdateMoveVector();
 }
 void AMyPlayerController::InitAction()
 {
@@ -77,11 +78,6 @@ void AMyPlayerController::InitAction()
 		negativeMod->bY = false;
 		negativeMod->bZ = false;
 		LookUpMapping.Modifiers.Add(negativeMod);
-	}
-	{
-		LookAroundAction = NewObject<UInputAction>();
-		LookAroundAction->ValueType = EInputActionValueType::Axis2D;
-		FEnhancedActionKeyMapping& LookUpMapping = PlayerContext->MapKey(LookAroundAction, EKeys::Mouse2D);
 	}
 	{
 		MoveForwardAction = NewObject<UInputAction>();
@@ -164,6 +160,11 @@ void AMyPlayerController::UpdateInputState()
 		OwnerAnimation->SetAnimState(ECharacterState::IDLE);
 	}
 }
+void AMyPlayerController::UpdateMoveVector()
+{
+	OwnerAnimation->CharacterMovementUnitVector.X = MoveVector.X;
+	OwnerAnimation->CharacterMovementUnitVector.Y = MoveVector.Y;
+}
 void AMyPlayerController::LookUp(const FInputActionValue& InputActionValue)
 {
 	const float value = InputActionValue.Get<float>();
@@ -178,16 +179,13 @@ void AMyPlayerController::MoveForward(const FInputActionValue& InputActionValue)
 {
 	const float value = InputActionValue.Get<float>();
 	OwnerActor->AddMovementInput(OwnerActor->GetActorForwardVector() * value);
+	MoveVector.Y = OwnerActor->GetVelocity().Length() / OwnerActor->GetCharacterMovement()->GetMaxSpeed() * value;
 	MoveVector.Y = value;
 }
 void AMyPlayerController::MoveRight(const FInputActionValue& InputActionValue)
 {
 	const float value = InputActionValue.Get<float>();
 	OwnerActor->AddMovementInput(OwnerActor->GetActorRightVector() * value);
+	MoveVector.X = OwnerActor->GetVelocity().Length() / OwnerActor->GetCharacterMovement()->GetMaxSpeed() * value;
 	MoveVector.X = value;
-}
-void AMyPlayerController::LookAround(const FInputActionValue& InputActionValue)
-{
-	const FVector2D value = InputActionValue.Get<FVector2D>();
-	UE_LOG(LogTemp, Log, TEXT("MOVE"));
 }

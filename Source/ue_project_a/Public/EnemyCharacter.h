@@ -13,5 +13,6 @@ UCLASS()
 class UE_PROJECT_A_API AEnemyCharacter : public ACharacterBase
 {
 	GENERATED_BODY()
-	
+
+public:
 };

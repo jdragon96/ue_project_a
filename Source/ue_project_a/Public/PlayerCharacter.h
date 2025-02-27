@@ -5,15 +5,12 @@
 #include "CoreMinimal.h"
 #include "CharacterBase.h"
 #include "MovieSceneSequenceID.h"
+#include "MyMacro.h"
 #include "PlayerCharacter.generated.h"
 
 struct FInputActionValue;
 class UInputAction;
 class UInputMappingContext;
-
-#define DECLARE_ACCESSOR(Type, VarName) \
-		FORCEINLINE Type Get##VarName() const { return VarName; }\
-    FORCEINLINE void Set##VarName(Type NewValue) { VarName = NewValue; };
 
 /**
  * 
@@ -36,8 +33,7 @@ public:
 	/// <summary>
 	/// 애니메이션 트랜지션에 사용한다
 	/// </summary>
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
-	ECharacterState PlayerAnimState;
-
 	DECLARE_ACCESSOR(ECharacterState, PlayerAnimState);
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation")
+	ECharacterState PlayerAnimState;
 };

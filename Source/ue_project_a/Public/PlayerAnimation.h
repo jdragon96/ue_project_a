@@ -6,6 +6,7 @@
 #include "Animation/AnimInstance.h"
 #include "Animation/AnimSequence.h"
 #include "CharacterBase.h"
+#include "MyMacro.h"
 #include "PlayerAnimation.generated.h"
 
 
@@ -47,6 +48,13 @@ public:
 	/// </summary>
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 	ECharacterState AnimState;
+
+	/// <summary>
+	/// 애니메이션 상태
+	/// </summary>
+	DECLARE_ACCESSOR(FVector, CharacterMovementUnitVector);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
+	FVector CharacterMovementUnitVector;
 
 	/// <summary>
 	/// 애니메이션을 소유하고 있는 객체
